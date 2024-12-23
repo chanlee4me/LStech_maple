@@ -565,11 +565,12 @@ inline void Solver::varDecayActivity() {
 inline void Solver::varBumpActivity(Var v, double mult, int glue) {
     //added by cl
     int64_t weight = 0;
-    if(glue == 0)
-        int64_t weight = 1.0 / glue;
+    if(glue != 0)
+        weight = 1.0 / glue;
     int64_t freq = hitFreq(v);
     int64_t sumConflicts = conflicts;
-    activity_VSIDS[v] += var_inc * mult + 2 * weight * freq /  sumConflicts;
+    double a = 0.5;//history:2
+    activity_VSIDS[v] += var_inc * mult + a * weight * freq /  sumConflicts;
     if (activity_VSIDS[v] > 1e100) {
     // if ( (activity_VSIDS[v] += var_inc * mult) > 1e100 ) {
     //end
